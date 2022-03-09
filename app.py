@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restx import Api
+from flask_cors import CORS
 
 from config import Config
 from setup_db import db
@@ -12,6 +13,7 @@ from views.auth_views import auth_ns
 
 def create_app(config_object: Config) -> Flask:
     application = Flask(__name__)
+    CORS(application)
     application.config.from_object(config_object)
     application.app_context().push()
     configurate_app(application)
