@@ -22,19 +22,3 @@ class MovieDAO:
 
     def get_one(self, uid):
         return self.session.query(Movie).filter(Movie.id == uid).one()
-
-    def post(self, data):
-        movie = Movie(**data)
-        with self.session.begin():
-            self.session.add(movie)
-        return movie
-
-    def put(self, movie):
-        with self.session.begin():
-            self.session.add(movie)
-        return movie
-
-    def delete(self, uid):
-        movie = self.get_one(uid)
-        with self.session.begin():
-            self.session.delete(movie)
