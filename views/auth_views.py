@@ -1,22 +1,22 @@
 from flask_restx import Resource, Namespace
 from flask import request
-from implemented import auth_service
+from implemented import auth_service, user_service
 
 auth_ns = Namespace('auth')
 
 
-@auth_ns.route('/')
+@auth_ns.route('/login')
 class AuthView(Resource):
     def post(self):
         data = request.json
 
-        username = data.get('username', None)
+        email = data.get('email', None)
         password = data.get('password', None)
 
-        if None is [username, password]:
+        if None is [email, password]:
             return "", 400
 
-        tokens = auth_service.generate_tokens(username, password)
+        tokens = auth_service.generate_tokens(email, password)
 
         return tokens, 201
 
@@ -27,3 +27,18 @@ class AuthView(Resource):
         tokens = auth_service.approve_refresh_token(token)
 
         return tokens, 201
+
+
+@auth_ns.route('/register')
+class Register(Resource):
+    def post(self):
+        data = request.json
+
+        email = data.get('email', None)
+        password = data.get('password', None)
+
+        if None is [email, password]:
+            return "", 400
+
+        new_user = user_service.post(data)
+        return "", 201, {"location": f"/movies/{new_user.id}"}
