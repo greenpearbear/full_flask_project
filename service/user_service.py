@@ -15,9 +15,6 @@ class UserService:
     def get_one(self, uid):
         return self.dao.get_one(uid)
 
-    def get_by_username(self, name):
-        return self.dao.get_by_username(name)
-
     def post(self, data):
         data['password'] = self.generate_password(data['password'])
         return self.dao.post(data)
@@ -29,9 +26,6 @@ class UserService:
         user.password = self.generate_password(data['password'])
         user.role = data.get("role")
         return self.dao.put(user)
-
-    def delete(self, uid):
-        return self.dao.delete(uid)
 
     def generate_password(self, password):
         hash_digest = hashlib.pbkdf2_hmac(
