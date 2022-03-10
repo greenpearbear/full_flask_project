@@ -2,14 +2,13 @@ from flask_restx import Resource, Namespace
 from flask import request
 from dao.model.movie_model import MovieSchema
 from implemented import movie_service
-from helpers.decorators import auth_required, admin_required
+from helpers.decorators import admin_required
 
 movies_ns = Namespace('movies')
 
 
 @movies_ns.route('/')
 class MoviesView(Resource):
-    @auth_required
     def get(self):
         status = request.args.get('status')
         page = request.args.get('page', 1, type=int)
@@ -34,7 +33,6 @@ class MoviesView(Resource):
 
 @movies_ns.route('/<int:uid>')
 class MovieView(Resource):
-    @auth_required
     def get(self, uid: int):
         try:
             movie = movie_service.get_one(uid)

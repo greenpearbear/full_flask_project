@@ -2,14 +2,13 @@ from flask_restx import Resource, Namespace
 from flask import request
 from dao.model.genre_model import GenreSchema
 from implemented import genre_service
-from helpers.decorators import auth_required, admin_required
+from helpers.decorators import admin_required
 
 genres_ns = Namespace('genres')
 
 
 @genres_ns.route('/')
 class GenresView(Resource):
-    @auth_required
     def get(self):
         all_genre = genre_service.get_all()
         return GenreSchema(many=True).dump(all_genre), 200
@@ -23,7 +22,6 @@ class GenresView(Resource):
 
 @genres_ns.route('/<int:uid>')
 class GenreView(Resource):
-    @auth_required
     def get(self, uid: int):
         try:
             genre = genre_service.get_one(uid)
