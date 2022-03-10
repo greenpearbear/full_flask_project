@@ -19,10 +19,6 @@ def movie_dao():
     movie_dao.get_one = MagicMock(return_value=movie_1)
     movie_dao.get_all = MagicMock(return_value=[movie_1, movie_2, movie_3])
 
-    movie_dao.get_all_filter_year = MagicMock(return_value=movie_1)
-    movie_dao.get_all_filter_genre = MagicMock(return_value=movie_2)
-    movie_dao.get_all_filter_director = MagicMock(return_value=movie_3)
-
     movie_dao.post = MagicMock(return_value=Movie(id=4, title='Test_Movie_4', description='description_4',
                                                   trailer='trailer_4', year=2014, rating=8.4,
                                                   genre_id=4, director_id=4))
@@ -49,24 +45,6 @@ class TestMovieService:
         movies = self.movie_service.get_all()
 
         assert len(movies) == 3
-
-    def test_get_all_filter_year(self):
-        movie = self.movie_service.get_all_filter_year(2011)
-
-        assert movie is not None
-        assert movie.id is not None
-
-    def test_get_all_filter_genre(self):
-        movie = self.movie_service.get_all_filter_genre(2)
-
-        assert movie is not None
-        assert movie.id is not None
-
-    def test_get_all_filter_director(self):
-        movie = self.movie_service.get_all_filter_director(3)
-
-        assert movie is not None
-        assert movie.id is not None
 
     def test_post(self):
         movie_d = {

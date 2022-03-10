@@ -11,18 +11,17 @@ movies_ns = Namespace('movies')
 class MoviesView(Resource):
     @auth_required
     def get(self):
-        genre_id = request.args.get('genre_id')
-        director_id = request.args.get('director_id')
-        year = request.args.get('year')
-        if genre_id:
-            all_movies_filter_genre = movie_service.get_all_filter_genre(genre_id)
-            return MovieSchema(many=True).dump(all_movies_filter_genre), 200
-        if director_id:
-            all_movies_filter_director = movie_service.get_all_filter_director(director_id)
-            return MovieSchema(many=True).dump(all_movies_filter_director), 200
-        if year:
-            all_movies_filter_year = movie_service.get_all_filter_year(year)
-            return MovieSchema(many=True).dump(all_movies_filter_year), 200
+        status = request.args.get('status')
+        page = request.args.get('page', 1, type=int)
+        if status and page:
+            all_movies = movie_service.get_all_new_and_page(page)
+            return MovieSchema(many=True).dump(all_movies), 200
+        if status:
+            all_movies = movie_service.get_all_new()
+            return MovieSchema(many=True).dump(all_movies), 200
+        if page:
+            all_movies = movie_service.get_all_page(page)
+            return MovieSchema(many=True).dump(all_movies), 200
         all_movies = movie_service.get_all()
         return MovieSchema(many=True).dump(all_movies), 200
 
