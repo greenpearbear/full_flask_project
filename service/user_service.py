@@ -15,6 +15,9 @@ class UserService:
     def get_one(self, uid):
         return self.dao.get_one(uid)
 
+    def get_email(self, email):
+        return self.dao.get_email(email)
+
     def post(self, data):
         data['password'] = self.generate_password(data['password'])
         return self.dao.post(data)
@@ -37,7 +40,7 @@ class UserService:
         return base64.b64encode(hash_digest)
 
     def compare_password(self, password_hash, other_password):
-        return hmac.compare_digest(base64.b16decode(password_hash),
+        return hmac.compare_digest(base64.b64decode(password_hash),
                                    hashlib.pbkdf2_hmac('sha256',
                                                        other_password.encode('utf-8'),
                                                        PWD_HASH_SALT,

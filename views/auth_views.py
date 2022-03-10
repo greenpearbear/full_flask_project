@@ -1,6 +1,7 @@
 from flask_restx import Resource, Namespace
 from flask import request
 from implemented import auth_service, user_service
+from helpers.decorators import auth_required
 
 auth_ns = Namespace('auth')
 
@@ -20,6 +21,7 @@ class AuthView(Resource):
 
         return tokens, 201
 
+    @auth_required
     def put(self):
         data = request.json
         token = data.get('refresh_token')
@@ -41,4 +43,4 @@ class Register(Resource):
             return "", 400
 
         new_user = user_service.post(data)
-        return "", 201, {"location": f"/movies/{new_user.id}"}
+        return "", 201, {"location": f"/users/{new_user.id}"}
