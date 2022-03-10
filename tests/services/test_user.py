@@ -44,12 +44,6 @@ class TestUserService:
 
         assert len(users) == 3
 
-    def test_get_by_username(self):
-        user = self.user_service.get_by_username('Test_User_2')
-
-        assert user is not None
-        assert user.id is not None
-
     def test_post(self):
         user_d = {
             "username": "Test_User_4",
@@ -69,6 +63,3 @@ class TestUserService:
         user = self.user_service.put(3, user_d)
 
         assert user.id is not None
-
-    def test_delete(self):
-        self.user_service.delete(1)

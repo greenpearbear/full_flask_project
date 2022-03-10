@@ -19,14 +19,6 @@ def movie_dao():
     movie_dao.get_one = MagicMock(return_value=movie_1)
     movie_dao.get_all = MagicMock(return_value=[movie_1, movie_2, movie_3])
 
-    movie_dao.post = MagicMock(return_value=Movie(id=4, title='Test_Movie_4', description='description_4',
-                                                  trailer='trailer_4', year=2014, rating=8.4,
-                                                  genre_id=4, director_id=4))
-    movie_dao.put = MagicMock(return_value=Movie(id=3, title='Test_Movie_3_update', description='description_3',
-                                                 trailer='trailer_3', year=2013, rating=8.3,
-                                                 genre_id=3, director_id=3))
-    movie_dao.delete = MagicMock()
-
     return movie_dao
 
 
@@ -45,35 +37,3 @@ class TestMovieService:
         movies = self.movie_service.get_all()
 
         assert len(movies) == 3
-
-    def test_post(self):
-        movie_d = {
-            'id': 4,
-            'title': 'Test_Movie_4',
-            'description': 'description_4',
-            'trailer': 'trailer_4',
-            'year': 2014,
-            'rating': 8.4,
-            'genre_id': 4,
-            'director_id': 4
-        }
-        movie = self.movie_service.post(movie_d)
-
-        assert movie.id is not None
-
-    def test_put(self):
-        movie_d = {
-            'title': 'Test_Movie_3_update',
-            'description': 'description_3',
-            'trailer': 'trailer_3',
-            'year': 2013,
-            'rating': 8.3,
-            'genre_id': 3,
-            'director_id': 3
-        }
-        movie = self.movie_service.put(3, movie_d)
-
-        assert movie.id is not None
-
-    def test_delete(self):
-        self.movie_service.delete(1)

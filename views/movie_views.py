@@ -10,15 +10,15 @@ movies_ns = Namespace('movies')
 class MoviesView(Resource):
     def get(self):
         status = request.args.get('status')
-        page = request.args.get('page', 1, type=int)
+        page = request.args.get('page')
         if status and page:
-            all_movies = movie_service.get_all_new_and_page(page)
+            all_movies = movie_service.get_all_new_and_page()
             return MovieSchema(many=True).dump(all_movies), 200
         if status:
             all_movies = movie_service.get_all_new()
             return MovieSchema(many=True).dump(all_movies), 200
         if page:
-            all_movies = movie_service.get_all_page(page)
+            all_movies = movie_service.get_all_page()
             return MovieSchema(many=True).dump(all_movies), 200
         all_movies = movie_service.get_all()
         return MovieSchema(many=True).dump(all_movies), 200
