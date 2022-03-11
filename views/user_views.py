@@ -8,7 +8,7 @@ users_ns = Namespace('user')
 
 
 @users_ns.route('/')
-class UsersView(Resource):
+class UserView(Resource):
     @auth_required
     def get(self, id_user):
         try:
@@ -21,14 +21,14 @@ class UsersView(Resource):
     def patch(self, id_user):
         data = request.json
         try:
-            user_service.patch(id_user, data)
+            user_service.update(id_user, data)
             return "", 204
         except Exception as e:
             return str(e), 404
 
 
 @users_ns.route('/password')
-class UserView(Resource):
+class UserReplacePasswordView(Resource):
     @auth_required
     def put(self):
         try:

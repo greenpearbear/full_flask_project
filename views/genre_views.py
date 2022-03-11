@@ -1,4 +1,5 @@
 from flask_restx import Resource, Namespace
+from flask import request
 from dao.model.genre_model import GenreSchema
 from implemented import genre_service
 
@@ -8,6 +9,10 @@ genres_ns = Namespace('genres')
 @genres_ns.route('/')
 class GenresView(Resource):
     def get(self):
+        page = request.args.get('page')
+        if page:
+            all_genre = genre_service.get_page_all(page)
+            return GenreSchema(many=True).dump(all_genre), 200
         all_genre = genre_service.get_all()
         return GenreSchema(many=True).dump(all_genre), 200
 

@@ -1,4 +1,5 @@
 from dao.genre_dao import GenreDAO
+from helpers.constants import MOVIES_PER_PAGE
 
 
 class GenreService:
@@ -10,3 +11,8 @@ class GenreService:
 
     def get_one(self, uid):
         return self.dao.get_one(uid)
+
+    def get_page_all(self, page):
+        limit = MOVIES_PER_PAGE
+        offset = (page - 1) * limit
+        return self.dao.get_page_all(limit=limit, offset=offset)

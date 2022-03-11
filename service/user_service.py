@@ -22,7 +22,7 @@ class UserService:
         data['password'] = self.generate_password(data['password'])
         return self.dao.post(data)
 
-    def patch(self, uid, data):
+    def update(self, uid, data):
         user = self.get_one(uid)
         if 'name' in data:
             user.name = data.get("name")

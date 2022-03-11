@@ -10,3 +10,6 @@ class DirectorDAO:
 
     def get_all(self):
         return self.session.query(Director).all()
+
+    def get_page_all(self, limit, offset):
+        return self.session.query(Director).limit(limit).offset(offset).all()

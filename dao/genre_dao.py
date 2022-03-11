@@ -10,3 +10,6 @@ class GenreDAO:
 
     def get_all(self):
         return self.session.query(Genre).all()
+
+    def get_page_all(self, limit, offset):
+        return self.session.query(Genre).limit(limit).offset(offset).all()
