@@ -22,12 +22,14 @@ class UserService:
         data['password'] = self.generate_password(data['password'])
         return self.dao.post(data)
 
-    def put(self, uid, data):
+    def patch(self, uid, data):
         user = self.get_one(uid)
-        user.id = data.get("id")
-        user.username = data.get("username")
-        user.password = self.generate_password(data['password'])
-        user.role = data.get("role")
+        if 'name' in data:
+            user.name = data.get("name")
+        if 'surname' in data:
+            user.surname = data.get("surname")
+        if 'favourite_genre' in data:
+            user.favorite_genre = data.get('favourite_genre')
         return self.dao.put(user)
 
     def generate_password(self, password):

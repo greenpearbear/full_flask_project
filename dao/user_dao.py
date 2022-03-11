@@ -23,4 +23,3 @@ class UserDAO:
     def put(self, user):
         with self.session.begin():
             self.session.add(user)
-        return user
