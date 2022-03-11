@@ -11,14 +11,8 @@ class MoviesView(Resource):
     def get(self):
         status = request.args.get('status')
         page = request.args.get('page')
-        if status and page:
-            all_movies = movie_service.get_all_new_and_page()
-            return MovieSchema(many=True).dump(all_movies), 200
-        if status:
-            all_movies = movie_service.get_all_new()
-            return MovieSchema(many=True).dump(all_movies), 200
-        if page:
-            all_movies = movie_service.get_all_page()
+        if status or page:
+            all_movies = movie_service.get_all_new_and_page(status=status, page=page)
             return MovieSchema(many=True).dump(all_movies), 200
         all_movies = movie_service.get_all()
         return MovieSchema(many=True).dump(all_movies), 200
