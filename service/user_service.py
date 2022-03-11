@@ -3,6 +3,7 @@ import base64
 import hmac
 from dao.user_dao import UserDAO
 from helpers.constants import PWD_HASH_SALT, PWD_HASH_ITERATIONS
+from flask import abort
 
 
 class UserService:
@@ -30,6 +31,14 @@ class UserService:
             user.surname = data.get("surname")
         if 'favourite_genre' in data:
             user.favorite_genre = data.get('favourite_genre')
+        return self.dao.put(user)
+
+    def update_password(self, uid, password_old, password_new):
+        user = self.get_one(uid)
+        if not self.compare_password(user.password, password_old):
+            abort(401)
+        password_new_hash = self.generate_password(password_new)
+        user.password = password_new_hash
         return self.dao.put(user)
 
     def generate_password(self, password):

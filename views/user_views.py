@@ -1,5 +1,5 @@
 from flask_restx import Resource, Namespace
-from flask import request
+from flask import request, abort
 from dao.model.user_model import UserSchema
 from implemented import user_service
 from helpers.decorators import auth_required
@@ -30,10 +30,16 @@ class UserView(Resource):
 @users_ns.route('/password')
 class UserReplacePasswordView(Resource):
     @auth_required
-    def put(self):
+    def put(self, id_user):
         try:
-            req_json = request.json
-            user = user_service.put(1, req_json)
-            return UserSchema().dump(user), 200
+            data = request.json
+            password_old = data.get('password_1', None)
+            password_new = data.get('password_2', None)
+            if None in [password_old, password_new]:
+                abort(400)
+            print(data)
+            user_service.update_password(id_user, password_old, password_new)
+            return "", 204
         except Exception as e:
+            print(e)
             return str(e), 404

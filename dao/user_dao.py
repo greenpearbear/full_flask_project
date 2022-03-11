@@ -21,5 +21,5 @@ class UserDAO:
         return user
 
     def put(self, user):
-        with self.session.begin():
-            self.session.add(user)
+        self.session.add(user)
+        self.session.commit()
